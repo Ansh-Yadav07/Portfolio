@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Ansh Yadav</title>
+  <meta name="description" content="Ansh Yadav builds machine learning systems that read, see, guard and plan, and the software around them. B.Tech CSE (AI & ML), VIT Chennai." />
+  <meta property="og:title" content="Ansh Yadav" />
+  <meta property="og:description" content="Machines that read, see, guard and plan. Plus a small neural net you can train yourself." />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#f5f5f3" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+</head>
+<body>
+  <nav class="nav" aria-label="Main">
+    <a href="#top" class="nav-name">Ansh Yadav</a>
+    <div class="nav-links">
+      <a href="#read">Work</a>
+      <a href="#learn">Playground</a>
+      <a href="#card">About</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <div class="hud" aria-hidden="true"><span id="hud-text">epoch 000 · loss 2.300</span></div>
+
+  <main id="top">
+    <!-- HERO: reverse diffusion -->
+    <section class="hero" id="hero" data-bot="broom">
+      <div class="hero-pin">
+        <canvas id="hero-canvas" aria-hidden="true"></canvas>
+        <h1 class="sr">Ansh Yadav</h1>
+        <div class="hero-meta">
+          <p class="hero-step" aria-hidden="true"><span id="hero-t">t = 1000</span><span id="hero-class"></span></p>
+          <p class="hero-line" id="hero-line">I teach machines to read, see, guard and plan.<br />Then I build the software around them.</p>
+        </div>
+        <p class="hero-scroll" id="hero-scroll" aria-hidden="true">Scroll</p>
+      </div>
+    </section>
+
+    <!-- READ -->
+    <section class="scene dark" id="read" data-bot="magnifier">
+      <div class="read-pin">
+        <div class="pin-inner">
+          <p class="eyebrow" id="read-eyebrow">Fake News Detection using Hybrid AI</p>
+          <p class="read-headline" id="read-headline">“SHOCKING: Scientists EXPOSED the secret they don’t want you to know!!!”</p>
+          <div class="pipeline" id="pipeline" aria-hidden="true"></div>
+          <div class="verdict" id="verdict">
+            <span class="verdict-label">Weighted verdict</span>
+            <strong>Likely fake</strong>
+            <span class="verdict-note">Sample run, for illustration</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="wrap">
+        <h2 class="statement reveal">One model can be fooled. So I made six checks argue, and weighted the verdict by what kind of text came in.</h2>
+        <div class="stats reveal-group">
+          <div class="stat"><b>98%</b><span>accuracy on fine-tuned DistilBERT</span></div>
+          <div class="stat"><b>0.98</b><span>F1 score</span></div>
+          <div class="stat"><b>~5s</b><span>average analysis, all checks running in parallel</span></div>
+          <div class="stat"><b>67M</b><span>parameters, published on Hugging Face</span></div>
+        </div>
+
+        <div class="tryit reveal">
+          <div class="tryit-copy">
+            <h3>Try one of the six.</h3>
+            <p>These are the real 8 linguistic features from my code, ported to run in your browser. They only measure style, which is why five other checks exist.</p>
+            <div class="links">
+              <a href="https://fake-news-detector-lemon.vercel.app" target="_blank" rel="noopener">Full live demo ↗</a>
+              <a href="https://huggingface.co/anshy047/fake-news-detector-transformer" target="_blank" rel="noopener">Model ↗</a>
+              <a href="https://github.com/Ansh-Yadav07/fake-news-detection-adv" target="_blank" rel="noopener">Code ↗</a>
+            </div>
+          </div>
+          <div class="tryit-box">
+            <label for="ling-input" class="mono-label">Paste a headline</label>
+            <textarea id="ling-input" rows="3" spellcheck="false">BREAKING!!! You won’t believe the truth about 5 secret foods</textarea>
+            <div id="ling-out" class="ling-grid"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEE -->
+    <section class="scene light" id="see" data-bot="carrot">
+      <div class="wrap">
+        <h2 class="chapter reveal">See.</h2>
+        <div class="see-grid">
+          <div class="see-copy reveal">
+            <p class="eyebrow">PantryPilot AI</p>
+            <p class="lede">Point a phone at your vegetables. It knows what they are with no internet, because the detector runs on the phone itself.</p>
+            <p class="body">A YOLO26s model, exported to ONNX, sits inside a Flutter app. Everything that does need a server, like receipts, recipes and expiry estimates, goes through a FastAPI backend with Gemini and MongoDB.</p>
+            <div class="mini-stats">
+              <div><b>22</b><span>vegetable classes</span></div>
+              <div><b>0</b><span>network calls to detect</span></div>
+            </div>
+            <div class="links"><a href="https://github.com/Ansh-Yadav07/PantryPilot-AI" target="_blank" rel="noopener">Code ↗</a></div>
+          </div>
+          <div class="viewfinder reveal" id="viewfinder" aria-label="Interactive sketch of vegetable detection">
+            <canvas id="see-canvas"></canvas>
+            <div class="vf-hud"><span class="vf-rec"></span><span>yolo26s · on device</span><span id="vf-count">0 found</span></div>
+            <p class="vf-note">Move across the frame. A sketch of the detector, not the live model.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GUARD -->
+    <section class="scene dark" id="guard" data-bot="shield">
+      <div class="wrap">
+        <h2 class="chapter reveal">Guard.</h2>
+        <div class="guard-head reveal">
+          <div>
+            <p class="eyebrow">MAVIS, Multi-Attack Vector Intelligence System</p>
+            <p class="lede">It learned what normal network traffic looks like. Then every alert had to explain itself.</p>
+          </div>
+          <p class="body">An anomaly ensemble catches behaviour nothing has seen before. A gradient-boosted classifier names the attacks it recognises. Both share a single false-alarm budget, and every alert ships with a risk score, a reason and a MITRE ATT&amp;CK mapping.</p>
+        </div>
+        <div class="guard-stage reveal" id="guard-stage">
+          <canvas id="guard-canvas" aria-hidden="true"></canvas>
+          <div class="guard-bar">
+            <span class="guard-status" id="guard-status"><i></i>Watching flows</span>
+            <button class="pill-btn danger" id="guard-attack" type="button">Simulate a port scan</button>
+          </div>
+          <div class="alert-card" id="alert-card" role="status">
+            <div class="alert-top"><span>Risk</span><b id="alert-risk">0</b><span class="sev">critical</span></div>
+            <dl>
+              <dt>Reason</dt><dd>One source fanning out across many ports, short flows, anomaly detectors agree</dd>
+              <dt>ATT&amp;CK</dt><dd>T1046 Network Service Discovery</dd>
+              <dt>Response</dt><dd id="alert-response">Blocking source (dry run)…</dd>
+            </dl>
+          </div>
+        </div>
+        <div class="stats reveal-group">
+          <div class="stat"><b>0.9995</b><span>ROC-AUC</span></div>
+          <div class="stat"><b>0.9996</b><span>recall at a 1% false-positive budget</span></div>
+          <div class="stat"><b>0.982</b><span>F1</span></div>
+          <div class="stat"><b>2.5M</b><span>clean flows from CIC-IDS2017, a lab dataset</span></div>
+        </div>
+        <div class="links reveal"><a href="https://github.com/Ansh-Yadav07/MAVIS" target="_blank" rel="noopener">Code and model card ↗</a></div>
+      </div>
+    </section>
+
+    <!-- PLAN -->
+    <section class="scene light plan" id="plan" data-bot="map">
+      <div class="plan-pin">
+        <div class="plan-inner">
+          <div class="plan-left">
+            <h2 class="chapter">Plan.</h2>
+            <p class="eyebrow">TravelGenie</p>
+            <p class="plan-prompt"><span id="plan-typed"></span><i class="caret"></i></p>
+            <p class="body">Gemini returns structured JSON, a FastAPI backend checks the plan against your budget, and every stop gets a real name and a map link.</p>
+            <div class="links">
+              <a href="https://travel-genie-six.vercel.app" target="_blank" rel="noopener">Live demo ↗</a>
+              <a href="https://github.com/Ansh-Yadav07/TravelGenie" target="_blank" rel="noopener">Code ↗</a>
+            </div>
+          </div>
+          <div class="plan-right">
+            <svg id="plan-svg" viewBox="0 0 520 560" aria-hidden="true"></svg>
+            <div class="plan-foot">
+              <span id="plan-status">Waiting for a prompt</span>
+              <span id="plan-budget">₹0 of ₹40,000</span>
+            </div>
+            <p class="vf-note">Sample plan, for illustration</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LEARN -->
+    <section class="scene paper" id="learn" data-bot="cap">
+      <div class="wrap">
+        <h2 class="chapter reveal">Now you teach one.</h2>
+        <p class="lede learn-lede reveal">This is a real neural network with real backpropagation, training live in your browser. Click to give it examples. It has to figure out the rest.</p>
+        <div class="lab reveal">
+          <div class="lab-stage">
+            <canvas id="lab-canvas" aria-label="Neural network training canvas. Click to add data points."></canvas>
+            <p class="lab-empty" id="lab-empty">Click anywhere to add a point</p>
+          </div>
+          <div class="lab-side">
+            <div class="lab-group">
+              <span class="mono-label">Paint with</span>
+              <div class="seg" role="group" aria-label="Point class">
+                <button type="button" class="on" data-class="1"><i class="dot a"></i>Class A</button>
+                <button type="button" data-class="0"><i class="dot b"></i>Class B</button>
+              </div>
+            </div>
+            <div class="lab-group">
+              <span class="mono-label">Or load a dataset</span>
+              <div class="chips">
+                <button type="button" data-preset="xor">XOR</button>
+                <button type="button" data-preset="rings">Rings</button>
+                <button type="button" data-preset="spiral">Spiral</button>
+                <button type="button" data-preset="clear">Clear</button>
+              </div>
+            </div>
+            <div class="lab-group">
+              <label class="mono-label" for="lab-lr">Learning rate <span id="lab-lr-val">0.03</span></label>
+              <input type="range" id="lab-lr" min="0" max="100" value="55" />
+            </div>
+            <div class="lab-read">
+              <div><span class="mono-label">Loss</span><b id="lab-loss">n/a</b></div>
+              <div><span class="mono-label">Accuracy</span><b id="lab-acc">n/a</b></div>
+              <div><span class="mono-label">Steps</span><b id="lab-steps">0</b></div>
+            </div>
+            <canvas id="lab-curve" height="64" aria-hidden="true"></canvas>
+            <p class="lab-arch">2 → 12 → 12 → 1, tanh, plain SGD with momentum. No libraries.</p>
+          </div>
+        </div>
+        <div class="celora reveal">
+          <p class="eyebrow">Teaching people too</p>
+          <p class="lede">Celora is the AI-assisted learning platform I’m building now for students and educators, on the MERN stack. Authentication and the core learning flows are in. It’s still in progress.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- MORE -->
+    <section class="scene light" id="more" data-bot="wrench">
+      <div class="wrap">
+        <h2 class="section-title reveal">Also built.</h2>
+        <ul class="more-list reveal-group">
+          <li><a href="https://github.com/Ansh-Yadav07/z-score-explorer" target="_blank" rel="noopener"><b>Z-Score Explorer</b><span>A bell curve you can drag. Probabilities, inverse lookup and z-tables, all computed in the browser.</span><i>↗</i></a></li>
+          <li><a href="https://civicconnect-8dcc3.web.app" target="_blank" rel="noopener"><b>JanSahyog</b><span>Civic issue reporting, built and deployed at VIT Chennai’s college-level Smart India Hackathon, then expanded afterwards.</span><i>↗</i></a></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- MODEL CARD -->
+    <section class="scene paper" id="card" data-bot="tie">
+      <div class="wrap card-wrap">
+        <h2 class="section-title reveal">Model card.</h2>
+        <p class="lede reveal">MAVIS shipped with one. It seemed fair to write my own.</p>
+        <article class="model-card reveal">
+          <header><span>ansh-yadav</span><span class="tag">v3 · still training</span></header>
+          <section>
+            <h3>Model details</h3>
+            <p>Third-year B.Tech Computer Science student specialising in AI and ML at Vellore Institute of Technology, Chennai. Expected to finish training in 2028.</p>
+          </section>
+          <section>
+            <h3>Intended use</h3>
+            <p>AI and ML engineering roles and internships, especially where a model has to survive contact with real users.</p>
+            <h3 class="sub">Out of scope</h3>
+            <p>Fixing your printer.</p>
+          </section>
+          <section>
+            <h3>Frameworks</h3>
+            <p>PyTorch, scikit-learn, Hugging Face Transformers. Python, C++, Java, JavaScript, SQL. React, Node.js, Express, Flask, FastAPI, Firebase, MongoDB.</p>
+          </section>
+          <section>
+            <h3>Evaluation</h3>
+            <p>CGPA 8.22 / 10.00. Selected participant, Smart India Hackathon, college level, 2025.</p>
+          </section>
+          <section>
+            <h3>Other training data</h3>
+            <p>Media and outreach for the Entrepreneurship Cell, VIT Chennai: Pitcher’s Showdown, Stock Market Simulation, IPL Battle. Certificates in generative AI (Microsoft and LinkedIn), Azure AI, intro to AI and cloud computing.</p>
+          </section>
+          <section>
+            <h3>Known limitations</h3>
+            <ul class="limits">
+              <li>Classifies poorly under adversarial clicks on his name.</li>
+              <li>Up, up, down, down causes severe regularisation.</li>
+              <li>Output gets strange at high temperature. See the footer.</li>
+              <li>The small yellow one should not be shaken.</li>
+              <li>Responds to the word “hire”, typed anywhere.</li>
+              <li>Developers should open the console.</li>
+            </ul>
+          </section>
+        </article>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="scene dark contact" id="contact" data-bot="wave">
+      <div class="wrap">
+        <h2 class="contact-big reveal">Say hi.</h2>
+        <button class="email reveal" id="email-btn" type="button" data-email="anshy047@gmail.com">anshy047@gmail.com<span id="email-hint">Copy</span></button>
+        <div class="contact-links reveal">
+          <a href="https://www.linkedin.com/in/ansh-yadav-83909b223" target="_blank" rel="noopener">LinkedIn ↗</a>
+          <a href="https://github.com/Ansh-Yadav07" target="_blank" rel="noopener">GitHub ↗</a>
+          <a href="https://ansh-yadav07.github.io/Ansh-Resume/Ansh_Yadav.pdf" target="_blank" rel="noopener">Resume ↗</a>
+        </div>
+      </div>
+      <footer class="foot">
+        <div class="temp">
+          <label for="temp" class="mono-label">temperature <span id="temp-val">0.7</span></label>
+          <input type="range" id="temp" min="0" max="20" value="7" />
+          <p id="temp-out" aria-live="polite"></p>
+        </div>
+        <p class="foot-right"><span id="egg-count"></span><span>No templates were harmed.</span></p>
+      </footer>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status"></div>
+  <canvas id="bot" aria-hidden="true"></canvas>
+
+  <noscript><p style="padding:2rem">Ansh Yadav: anshy047@gmail.com. This page is more fun with JavaScript on.</p></noscript>
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
