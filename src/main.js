@@ -11,6 +11,7 @@ import { initSee } from './scenes/see.js';
 import { initGuard } from './scenes/guard.js';
 import { initPlan } from './scenes/plan.js';
 import { initLearn } from './scenes/learn.js';
+import { initPhoto } from './scenes/photo.js';
 import { initBot } from './bot/bot.js';
 import { initEggs } from './eggs.js';
 
@@ -23,6 +24,7 @@ function boot() {
   initGuard();
   initPlan();
   initLearn();
+  initPhoto();
   initEggs();
   initBot();
   updatePins();

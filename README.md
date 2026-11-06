@@ -12,7 +12,7 @@ My personal site. It's organised around what my models do: read, see, guard and 
 | Guard | A simulated port scan, from alert to block | [MAVIS](https://github.com/Ansh-Yadav07/MAVIS) |
 | Plan | A trip plan that draws itself as you scroll | [TravelGenie](https://github.com/Ansh-Yadav07/TravelGenie) |
 | Learn | A real MLP with backpropagation written from scratch, training live on points you add | |
-| Model card | My bio, written as an ML model card | |
+| Model card | My bio, written as an ML model card. If `public/ansh.jpg` exists, it shows as a "sample output" that denoises out of a halftone | |
 
 The scores, confidences and trip budget in the animations are sample values, and the page labels them as samples or sketches. The headline metrics come from the projects themselves.
 
@@ -38,7 +38,7 @@ npm run preview   # serve the build locally
 
 ```
 index.html        page content
-public/           favicon and the 404 page
+public/           favicon, 404 page, og.png share image, ansh.jpg (optional photo)
 src/main.js       startup, scroll progress, reveals
 src/lib.js        shared helpers
 src/styles.css    all styles
