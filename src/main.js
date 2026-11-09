@@ -84,3 +84,12 @@ if (innerWidth > 0) {
 } else {
   addEventListener('resize', boot, { once: true });
 }
+
+// Vercel Web Analytics: cookieless page views, loaded only on the deployed site
+if (import.meta.env.PROD && /(^|\.)anshyadav\.me$|\.vercel\.app$/.test(location.hostname)) {
+  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  const s = document.createElement('script');
+  s.defer = true;
+  s.src = '/_vercel/insights/script.js';
+  document.head.append(s);
+}

@@ -38,7 +38,7 @@ npm run preview   # serve the build locally
 
 ```
 index.html        page content
-public/           favicon, 404 page, og.png share image, ansh.jpg (optional photo)
+public/           favicon, 404 page, share image, photo, resume.pdf, robots.txt and sitemap
 src/main.js       startup, scroll progress, reveals
 src/lib.js        shared helpers
 src/styles.css    all styles

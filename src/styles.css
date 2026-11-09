@@ -287,6 +287,8 @@ input[type=range] { width: 100%; accent-color: var(--ink); }
 
 /* Contact */
 .contact .wrap { padding-bottom: clamp(50px, 8vw, 90px); }
+.avail { font: 400 13px/1.2 var(--mono); color: #d9d9dc; display: flex; align-items: center; gap: 9px; margin-bottom: 18px; }
+.avail i { width: 8px; height: 8px; border-radius: 50%; background: #46d17a; flex: none; animation: rec 1.6s steps(2) infinite; }
 .contact-big { font-size: clamp(5rem, 22vw, 20rem); font-weight: 700; letter-spacing: -.06em; line-height: 1; margin-bottom: clamp(16px, 3vw, 36px); }
 .email { font-size: clamp(1.4rem, 4.2vw, 3.4rem); font-weight: 500; letter-spacing: -.03em; line-height: 1.1; display: inline-flex; align-items: baseline; gap: 14px; flex-wrap: wrap; text-align: left; overflow-wrap: anywhere; }
 .email span { font: 400 12px/1 var(--mono); letter-spacing: 0; color: var(--bone-mute); }
@@ -346,5 +348,5 @@ input[type=range] { width: 100%; accent-color: var(--ink); }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .js .reveal, .js .reveal-group > * { opacity: 1; transform: none; transition: none; }
-  .vf-rec, .caret { animation: none; }
+  .vf-rec, .caret, .avail i { animation: none; }
 }
