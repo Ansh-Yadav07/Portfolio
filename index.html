@@ -178,17 +178,27 @@
         <div class="guard-stage reveal" id="guard-stage">
           <canvas id="guard-canvas" aria-hidden="true"></canvas>
           <div class="guard-bar">
-            <span class="guard-status" id="guard-status"><i></i>Watching flows</span>
-            <button class="pill-btn danger" id="guard-attack" type="button">Simulate a port scan</button>
+            <span class="guard-status" id="guard-status"><i></i>Watching traffic</span>
+            <button class="pill-btn danger" id="guard-attack" type="button">Simulate an attack</button>
           </div>
-          <div class="alert-card" id="alert-card" role="status">
-            <div class="alert-top"><span>Risk</span><b id="alert-risk">0</b><span class="sev">critical</span></div>
+          <div class="alert-card" id="alert-card">
+            <div class="alert-top"><span>Risk</span><b id="alert-risk">0</b><span>out of 100</span><span class="sev">critical</span></div>
             <dl>
-              <dt>Reason</dt><dd>One source fanning out across many ports, short flows, anomaly detectors agree</dd>
-              <dt>ATT&amp;CK</dt><dd>T1046 Network Service Discovery</dd>
-              <dt>Response</dt><dd id="alert-response">Blocking source (dry run)…</dd>
+              <dt>What it saw</dt><dd>One sender trying hundreds of ports in seconds</dd>
+              <dt>Attack type</dt><dd>Port scan (MITRE ATT&amp;CK T1046)</dd>
+              <dt>What it did</dt><dd id="alert-response">Deciding…</dd>
             </dl>
           </div>
+        </div>
+        <div class="guard-steps reveal" id="guard-steps">
+          <ol>
+            <li class="on"><b>1</b>Normal</li>
+            <li><b>2</b>Attack</li>
+            <li><b>3</b>Spotted</li>
+            <li><b>4</b>Blocked</li>
+          </ol>
+          <p class="guard-caption" id="guard-caption" aria-live="polite">Every line is one connection passing through MAVIS into the network. Right now it is all ordinary traffic, so everything gets through. Press “Simulate an attack” to see what changes.</p>
+          <p class="guard-legend"><span><i class="k ok"></i>normal connection</span><span><i class="k bad"></i>attack</span><span class="guard-sim">A simulation. In the real system, blocking starts in a test mode until it is switched on.</span></p>
         </div>
         <div class="stats reveal-group">
           <div class="stat"><b>0.9995</b><span>ROC-AUC</span></div>
@@ -280,8 +290,7 @@
       <div class="wrap">
         <h2 class="section-title reveal">Also built.</h2>
         <ul class="more-list reveal-group">
-          <!-- Celora: turn this into a link once the repo URL is known -->
-          <li><div class="more-row"><b>Celora</b><span>An AI-assisted learning platform for students and educators, on the MERN stack. Authentication and the core learning flows are in. Still in progress.</span></div></li>
+          <li><a href="https://github.com/smritiy06/Celora" target="_blank" rel="noopener"><b>Celora</b><span>An AI-assisted learning platform for students and educators, on the MERN stack. Authentication and the core learning flows are in. Still in progress.</span><i>↗</i></a></li>
           <li><a href="https://travel-genie-six.vercel.app" target="_blank" rel="noopener"><b>TravelGenie</b><span>An AI trip planner for India. Gemini writes a day-by-day plan and a FastAPI backend checks it against your budget.</span><i>↗</i></a></li>
           <li><a href="https://github.com/Ansh-Yadav07/z-score-explorer" target="_blank" rel="noopener"><b>Z-Score Explorer</b><span>A bell curve you can drag. Probabilities, inverse lookup and z-tables, all computed in the browser.</span><i>↗</i></a></li>
         </ul>

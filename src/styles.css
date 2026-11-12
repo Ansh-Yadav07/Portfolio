@@ -212,7 +212,7 @@ ul { list-style: none; padding: 0; }
 
 /* Guard */
 .guard-head { display: grid; grid-template-columns: 1.2fr 1fr; gap: clamp(24px, 5vw, 72px); align-items: end; margin-bottom: clamp(32px, 5vw, 56px); }
-.guard-stage { position: relative; background: var(--night-2); border-radius: 26px; overflow: hidden; height: clamp(360px, 52vw, 540px); margin-bottom: clamp(60px, 9vw, 110px); transition: box-shadow .4s; }
+.guard-stage { position: relative; background: var(--night-2); border-radius: 26px; overflow: hidden; height: clamp(360px, 52vw, 540px); transition: box-shadow .4s; }
 .guard-stage.alarm { box-shadow: inset 0 0 0 2px var(--b); }
 #guard-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
 .guard-bar { position: absolute; top: 16px; left: 18px; right: 16px; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
@@ -233,9 +233,24 @@ ul { list-style: none; padding: 0; }
 .alert-top { display: flex; align-items: baseline; gap: 10px; font-size: 13px; color: var(--bone-mute); margin-bottom: 10px; }
 .alert-top b { font-size: 2.2rem; line-height: 1; letter-spacing: -.04em; color: var(--bone); font-variant-numeric: tabular-nums; }
 .alert-top .sev { margin-left: auto; color: var(--b); font-weight: 600; }
-.alert-card dl { display: grid; grid-template-columns: 74px 1fr; gap: 5px 10px; font-size: 13px; line-height: 1.3; }
+.alert-card dl { display: grid; grid-template-columns: 92px 1fr; gap: 5px 10px; font-size: 13px; line-height: 1.3; }
 .alert-card dt { color: var(--bone-mute); }
 .alert-card dd { margin: 0; }
+.guard-steps { margin: clamp(20px, 2.6vw, 28px) 0 clamp(60px, 9vw, 110px); }
+.guard-steps ol { display: flex; gap: clamp(12px, 3vw, 36px); padding: 0; list-style: none; font: 400 12px/1 var(--mono); color: var(--bone-mute); margin-bottom: 18px; }
+.guard-steps li { display: flex; align-items: center; gap: 8px; white-space: nowrap; transition: color .3s; }
+.guard-steps b { display: grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; box-shadow: inset 0 0 0 1px var(--night-line); font-weight: 400; color: var(--bone-mute); transition: background .3s, color .3s, box-shadow .3s; }
+.guard-steps li.on { color: var(--bone); }
+/* Ink, not white, on orange: white on --b is only 3.4:1 */
+.guard-steps li.now b { background: var(--b); color: var(--ink); box-shadow: none; }
+.guard-steps li.now:is(:first-child, :last-child) b { background: #46d17a; }
+/* Room for the longest caption, so the stats below never jump between steps */
+.guard-caption { font-size: clamp(1.05rem, 1.6vw, 1.3rem); font-weight: 500; line-height: 1.4; color: var(--bone); max-width: 62ch; min-height: 4.2em; margin-bottom: 16px; }
+.guard-legend { display: flex; flex-wrap: wrap; gap: 6px 20px; font: 400 12px/1.4 var(--mono); color: var(--bone-mute); }
+.guard-legend span { display: inline-flex; align-items: center; gap: 8px; }
+.guard-legend .k { width: 16px; height: 3px; border-radius: 2px; background: #d9d9dc; }
+.guard-legend .k.bad { background: var(--b); }
+.guard-legend .guard-sim { display: block; flex-basis: 100%; }
 #guard .stats-note { margin-bottom: 0; }
 
 /* Report */
@@ -397,10 +412,17 @@ input[type=range] { width: 100%; accent-color: var(--ink); }
   .foot-right { text-align: left; }
   .alert-card dl { font-size: 12px; }
   .guard-stage { height: 420px; }
+  .guard-caption { min-height: 7em; }
 }
 
 @media (max-width: 419px) {
   .nav-links a:nth-child(2) { display: none; }
+  /* The longest caption runs to six lines at 360px */
+  .guard-caption { min-height: 8.4em; }
+  /* Lets "Watching traffic" take two lines rather than push the button off the panel */
+  .guard-bar { gap: 10px; }
+  .guard-status { white-space: normal; }
+  .guard-bar .pill-btn { padding-inline: 14px; flex: none; }
 }
 
 @media (max-width: 480px) {
@@ -410,11 +432,14 @@ input[type=range] { width: 100%; accent-color: var(--ink); }
   /* Keeps "Avg word length" clear of its value in a half-width column */
   .ling-grid { column-gap: 16px; }
   .ling-item { font-size: 13px; }
+  /* Four steps on one row at 360px: the gaps give, the labels do not */
+  .guard-steps ol { justify-content: space-between; gap: 6px; }
+  .guard-steps li { gap: 6px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .js .reveal, .js .reveal-group > * { opacity: 1; transform: none; transition: none; }
-  .vf-rec, .caret, .avail i, .ticket-sync i.ping, .hero-scroll i::after { animation: none; }
+  .vf-rec, .caret, .avail i, .ticket-sync i.ping, .hero-scroll i::after, .guard-stage.alarm .guard-status i { animation: none; }
   .hero-scroll i::after { transform: translateY(8px); }
 }
