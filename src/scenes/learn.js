@@ -216,9 +216,10 @@ export function initLearn() {
         const k = Math.abs(p - 0.5) * 2;
         const a = data.length && steps ? k * 0.55 : 0;
         const o = (j * RES + i) * 4;
-        img.data[o] = 255 + (c[0] - 255) * a;
-        img.data[o + 1] = 255 + (c[1] - 255) * a;
-        img.data[o + 2] = 255 + (c[2] - 255) * a;
+        // Blend toward the card colour (--white), so an untrained surface matches the stage
+        img.data[o] = 251 + (c[0] - 251) * a;
+        img.data[o + 1] = 251 + (c[1] - 251) * a;
+        img.data[o + 2] = 249 + (c[2] - 249) * a;
         img.data[o + 3] = 255;
       }
     }

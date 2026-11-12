@@ -4,31 +4,63 @@ import '@fontsource/ibm-plex-mono/500.css';
 import '@fontsource/silkscreen/400.css';
 import './styles.css';
 
-import { clamp, updatePins } from './lib.js';
+import { clamp, on, updatePins } from './lib.js';
 import { initHero } from './scenes/hero.js';
-import { initRead } from './scenes/read.js';
-import { initSee } from './scenes/see.js';
-import { initGuard } from './scenes/guard.js';
-import { initPlan } from './scenes/plan.js';
-import { initLearn } from './scenes/learn.js';
-import { initPhoto } from './scenes/photo.js';
 import { initBot } from './bot/bot.js';
 import { initEggs } from './eggs.js';
 
 document.documentElement.classList.add('js');
 
+// One scene throwing should never take the rest of the page down with it
+function safe(fn) {
+  try {
+    const r = fn();
+    if (r && r.catch) r.catch((e) => console.error(e));
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+// Scenes below the fold load as their own chunks and start about 1.5 screens before they arrive
+const LAZY = [
+  ['read', () => import('./scenes/read.js').then((m) => m.initRead())],
+  ['see', () => import('./scenes/see.js').then((m) => m.initSee())],
+  ['guard', () => import('./scenes/guard.js').then((m) => m.initGuard())],
+  ['report', () => import('./scenes/report.js').then((m) => m.initReport())],
+  ['learn', () => import('./scenes/learn.js').then((m) => m.initLearn())],
+  ['card', () => import('./scenes/photo.js').then((m) => m.initPhoto())],
+];
+const started = new Set();
+function startScene(i) {
+  // A jump (a link, or a load at /#contact) also starts every scene it skipped over
+  for (let k = 0; k <= i; k++) {
+    if (started.has(k)) continue;
+    started.add(k);
+    const el = document.getElementById(LAZY[k][0]);
+    if (el) lazyIo.unobserve(el);
+    safe(() => LAZY[k][1]().then(updatePins));
+  }
+}
+const lazyIo = new IntersectionObserver((entries) => {
+  for (const e of entries) {
+    if (e.isIntersecting) startScene(LAZY.findIndex(([id]) => id === e.target.id));
+  }
+}, { rootMargin: '150% 0px' });
+
 function boot() {
-  initHero();
-  initRead();
-  initSee();
-  initGuard();
-  initPlan();
-  initLearn();
-  initPhoto();
-  initEggs();
-  initBot();
+  safe(initHero);
+  safe(initEggs);
+  safe(initBot);
+  LAZY.forEach(([id]) => {
+    const el = document.getElementById(id);
+    if (el) lazyIo.observe(el);
+  });
+  // Past the last lazy section (the contact form, say): everything above has to start
+  const last = document.getElementById(LAZY[LAZY.length - 1][0]);
+  if (last && last.getBoundingClientRect().bottom < 0) startScene(LAZY.length - 1);
   updatePins();
   updateHud();
+  updateNav();
 }
 
 // Reveal on scroll
@@ -54,15 +86,29 @@ function updateHud() {
     : `epoch ${String(epoch).padStart(3, '0')} · loss ${loss.toFixed(3)}`;
 }
 
-// The nav steps out of the way while reading and returns as soon as you scroll back
+// The nav takes the theme of the section under it, and marks the link for the part of the page in view
 const nav = document.querySelector('.nav');
-let navY = 0;
+const sections = [...document.querySelectorAll('main > section')];
+const navLinks = [...nav.querySelectorAll('.nav-links a')];
+const GROUP = { read: '#read', see: '#read', guard: '#read', report: '#read', more: '#read', learn: '#learn', card: '#card', contact: '#contact' };
+const sectionAt = (y) => sections.find((s) => {
+  const r = s.getBoundingClientRect();
+  return r.top <= y && r.bottom > y;
+});
 function updateNav() {
-  const y = scrollY;
-  if (Math.abs(y - navY) < 6) return;
-  nav.classList.toggle('away', y > navY && y > innerHeight * 0.5);
-  navY = y;
+  nav.classList.toggle('at-top', scrollY < 8);
+  // The hero turns dark half-way through its own scroll, and says so with .is-dark
+  const under = sectionAt(nav.offsetHeight / 2);
+  nav.classList.toggle('on-dark', !!under && (under.classList.contains('dark') || under.classList.contains('is-dark')));
+  const atEnd = scrollY + innerHeight >= document.documentElement.scrollHeight - 2;
+  const inView = atEnd ? sections[sections.length - 1] : sectionAt(innerHeight * 0.4);
+  const href = inView && GROUP[inView.id];
+  for (const a of navLinks) {
+    if (a.getAttribute('href') === href) a.setAttribute('aria-current', 'true');
+    else a.removeAttribute('aria-current');
+  }
 }
+on('hero-dark', updateNav);
 
 let queued = false;
 const onScroll = () => {
@@ -77,6 +123,8 @@ const onScroll = () => {
 };
 addEventListener('scroll', onScroll, { passive: true });
 addEventListener('resize', onScroll);
+// Lazy scenes can change the page height (the photo appears late) without any scroll event
+new ResizeObserver(onScroll).observe(document.querySelector('main'));
 
 // A page opened in a background or collapsed view can start with no size to measure
 if (innerWidth > 0) {

@@ -4,10 +4,10 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Ansh Yadav · AI & ML Engineer</title>
-  <meta name="description" content="Ansh Yadav builds machine learning systems that read, see, guard and plan, and the software around them. B.Tech CSE (AI & ML), VIT Chennai." />
+  <meta name="description" content="Ansh Yadav builds machine learning systems that read, see and guard, and the software around them. B.Tech CSE (AI & ML), VIT Chennai." />
   <link rel="canonical" href="https://www.anshyadav.me/" />
   <meta property="og:title" content="Ansh Yadav · AI & ML Engineer" />
-  <meta property="og:description" content="Machines that read, see, guard and plan. Plus a small neural net you can train yourself." />
+  <meta property="og:description" content="Machines that read, see and guard. Plus a small neural net you can train yourself." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.anshyadav.me/" />
   <meta property="og:site_name" content="Ansh Yadav" />
@@ -17,31 +17,59 @@
   <meta property="og:image:alt" content="Ansh Yadav, written in dots resolving out of noise" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Ansh Yadav · AI & ML Engineer" />
-  <meta name="twitter:description" content="Machines that read, see, guard and plan. Plus a small neural net you can train yourself." />
+  <meta name="twitter:description" content="Machines that read, see and guard. Plus a small neural net you can train yourself." />
   <meta name="twitter:image" content="https://www.anshyadav.me/og.png" />
   <meta name="theme-color" content="#f5f5f3" />
+  <meta name="color-scheme" content="light" />
+  <link rel="icon" href="/favicon.ico" sizes="48x48" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon-96.png" type="image/png" sizes="96x96" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Ansh Yadav",
-    "url": "https://www.anshyadav.me/",
-    "image": "https://www.anshyadav.me/ansh.jpg",
-    "jobTitle": "AI and ML engineering student",
-    "description": "Builds machine learning systems that read, see, guard and plan, and the software around them.",
-    "email": "mailto:anshy047@gmail.com",
-    "alumniOf": { "@type": "CollegeOrUniversity", "name": "Vellore Institute of Technology, Chennai" },
-    "knowsAbout": ["Machine learning", "Deep learning", "Natural language processing", "Computer vision", "PyTorch"],
-    "sameAs": [
-      "https://github.com/Ansh-Yadav07",
-      "https://www.linkedin.com/in/ansh-yadav-83909b223",
-      "https://huggingface.co/anshy047"
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://www.anshyadav.me/#website",
+        "url": "https://www.anshyadav.me/",
+        "name": "Ansh Yadav",
+        "alternateName": "anshyadav.me",
+        "inLanguage": "en"
+      },
+      {
+        "@type": "ProfilePage",
+        "@id": "https://www.anshyadav.me/#profile",
+        "url": "https://www.anshyadav.me/",
+        "name": "Ansh Yadav · AI & ML Engineer",
+        "isPartOf": { "@id": "https://www.anshyadav.me/#website" },
+        "mainEntity": { "@id": "https://www.anshyadav.me/#person" },
+        "dateModified": "2026-11-12"
+      },
+      {
+        "@type": "Person",
+        "@id": "https://www.anshyadav.me/#person",
+        "name": "Ansh Yadav",
+        "url": "https://www.anshyadav.me/",
+        "image": "https://www.anshyadav.me/ansh.jpg",
+        "jobTitle": "AI and ML engineering student",
+        "description": "Builds machine learning systems that read, see and guard, and the software around them.",
+        "email": "mailto:anshy047@gmail.com",
+        "alumniOf": { "@type": "CollegeOrUniversity", "name": "Vellore Institute of Technology, Chennai" },
+        "knowsAbout": ["Machine learning", "Deep learning", "Natural language processing", "Computer vision", "PyTorch"],
+        "sameAs": [
+          "https://github.com/Ansh-Yadav07",
+          "https://www.linkedin.com/in/ansh-yadav-83909b223",
+          "https://huggingface.co/anshy047"
+        ]
+      }
     ]
   }
   </script>
 </head>
 <body>
+  <a class="skip" href="#read">Skip to work</a>
   <nav class="nav" aria-label="Main">
     <a href="#top" class="nav-name">Ansh Yadav</a>
     <div class="nav-links">
@@ -62,9 +90,9 @@
         <h1 class="sr">Ansh Yadav</h1>
         <div class="hero-meta">
           <p class="hero-step" aria-hidden="true"><span id="hero-t">t = 1000</span><span id="hero-class"></span></p>
-          <p class="hero-line" id="hero-line">I teach machines to read, see, guard and plan.<br />Then I build the software around them.</p>
+          <p class="hero-line" id="hero-line">I teach machines to read, see and guard.<br />Then I build the software around them.</p>
         </div>
-        <p class="hero-scroll" id="hero-scroll" aria-hidden="true">Scroll</p>
+        <p class="hero-scroll" id="hero-scroll" aria-hidden="true"><span>Scroll</span><i></i></p>
       </div>
     </section>
 
@@ -86,11 +114,12 @@
       <div class="wrap">
         <h2 class="statement reveal">One model can be fooled. So I made six checks argue, and weighted the verdict by what kind of text came in.</h2>
         <div class="stats reveal-group">
-          <div class="stat"><b>98%</b><span>accuracy on fine-tuned DistilBERT</span></div>
+          <div class="stat"><b>98%</b><span>Accuracy</span></div>
           <div class="stat"><b>0.98</b><span>F1 score</span></div>
-          <div class="stat"><b>~5s</b><span>average analysis, all checks running in parallel</span></div>
-          <div class="stat"><b>67M</b><span>parameters, published on Hugging Face</span></div>
+          <div class="stat"><b>~5s</b><span>Average analysis</span></div>
+          <div class="stat"><b>67M</b><span>Parameters</span></div>
         </div>
+        <p class="stats-note reveal">A fine-tuned DistilBERT, published on Hugging Face. All six checks run in parallel.</p>
 
         <div class="tryit reveal">
           <div class="tryit-copy">
@@ -163,35 +192,41 @@
         </div>
         <div class="stats reveal-group">
           <div class="stat"><b>0.9995</b><span>ROC-AUC</span></div>
-          <div class="stat"><b>0.9996</b><span>recall at a 1% false-positive budget</span></div>
-          <div class="stat"><b>0.982</b><span>F1</span></div>
-          <div class="stat"><b>2.5M</b><span>clean flows from CIC-IDS2017, a lab dataset</span></div>
+          <div class="stat"><b>0.9996</b><span>Recall</span></div>
+          <div class="stat"><b>0.9655</b><span>Precision</span></div>
+          <div class="stat"><b>0.9822</b><span>F1 score</span></div>
         </div>
+        <p class="stats-note reveal">The full engine at a 1% false-positive budget, on CIC-IDS2017, a lab dataset of 2.5M clean flows.</p>
         <div class="links reveal"><a href="https://github.com/Ansh-Yadav07/MAVIS" target="_blank" rel="noopener">Code and model card ↗</a></div>
       </div>
     </section>
 
-    <!-- PLAN -->
-    <section class="scene light plan" id="plan" data-bot="map">
-      <div class="plan-pin">
-        <div class="plan-inner">
-          <div class="plan-left">
-            <h2 class="chapter">Plan.</h2>
-            <p class="eyebrow">TravelGenie</p>
-            <p class="plan-prompt"><span id="plan-typed"></span><i class="caret"></i></p>
-            <p class="body">Gemini returns structured JSON, a FastAPI backend checks the plan against your budget, and every stop gets a real name and a map link.</p>
-            <div class="links">
-              <a href="https://travel-genie-six.vercel.app" target="_blank" rel="noopener">Live demo ↗</a>
-              <a href="https://github.com/Ansh-Yadav07/TravelGenie" target="_blank" rel="noopener">Code ↗</a>
-            </div>
+    <!-- REPORT -->
+    <section class="scene light" id="report" data-bot="cone">
+      <div class="wrap">
+        <h2 class="chapter reveal">Report.</h2>
+        <div class="report-grid">
+          <div class="report-copy reveal">
+            <p class="eyebrow">JanSahyog</p>
+            <p class="lede">A broken streetlight shouldn’t need a phone call. Citizens file the issue once, then watch it move.</p>
+            <p class="body">Built and deployed at VIT Chennai’s college-level Smart India Hackathon, then expanded afterwards. Firebase Authentication decides who can do what, and Cloud Firestore keeps every screen in sync as an issue changes status.</p>
+            <div class="links"><a href="https://civicconnect-8dcc3.web.app" target="_blank" rel="noopener">Live app ↗</a></div>
           </div>
-          <div class="plan-right">
-            <svg id="plan-svg" viewBox="0 0 520 560" aria-hidden="true"></svg>
-            <div class="plan-foot">
-              <span id="plan-status">Waiting for a prompt</span>
-              <span id="plan-budget">₹0 of ₹40,000</span>
-            </div>
-            <p class="vf-note">Sample plan, for illustration</p>
+          <div class="ticket reveal" id="ticket" role="img" aria-label="Sample civic issue moving from reported to resolved">
+            <div class="ticket-head"><span>New issue</span><span class="ticket-sync" id="ticket-sync"><i></i>synced</span></div>
+            <p class="ticket-title"><span id="ticket-typed"></span><i class="caret"></i></p>
+            <dl class="ticket-fields" id="ticket-fields">
+              <div><dt>Category</dt><dd>Street Lights</dd></div>
+              <div><dt>Location</dt><dd>Outside Gate 2, main road</dd></div>
+              <div><dt>Photo</dt><dd>1 attached</dd></div>
+            </dl>
+            <ol class="track" id="track">
+              <li><i></i><span>Reported</span></li>
+              <li><i></i><span>Acknowledged</span></li>
+              <li><i></i><span>In progress</span></li>
+              <li><i></i><span>Resolved</span></li>
+            </ol>
+            <div class="ticket-foot"><span id="ticket-status">Waiting for a report</span><span>Sample report, for illustration</span></div>
           </div>
         </div>
       </div>
@@ -237,10 +272,6 @@
             <p class="lab-arch">2 → 12 → 12 → 1, tanh, plain SGD with momentum. No libraries.</p>
           </div>
         </div>
-        <div class="celora reveal">
-          <p class="eyebrow">Teaching people too</p>
-          <p class="lede">Celora is the AI-assisted learning platform I’m building now for students and educators, on the MERN stack. Authentication and the core learning flows are in. It’s still in progress.</p>
-        </div>
       </div>
     </section>
 
@@ -249,8 +280,10 @@
       <div class="wrap">
         <h2 class="section-title reveal">Also built.</h2>
         <ul class="more-list reveal-group">
+          <!-- Celora: turn this into a link once the repo URL is known -->
+          <li><div class="more-row"><b>Celora</b><span>An AI-assisted learning platform for students and educators, on the MERN stack. Authentication and the core learning flows are in. Still in progress.</span></div></li>
+          <li><a href="https://travel-genie-six.vercel.app" target="_blank" rel="noopener"><b>TravelGenie</b><span>An AI trip planner for India. Gemini writes a day-by-day plan and a FastAPI backend checks it against your budget.</span><i>↗</i></a></li>
           <li><a href="https://github.com/Ansh-Yadav07/z-score-explorer" target="_blank" rel="noopener"><b>Z-Score Explorer</b><span>A bell curve you can drag. Probabilities, inverse lookup and z-tables, all computed in the browser.</span><i>↗</i></a></li>
-          <li><a href="https://civicconnect-8dcc3.web.app" target="_blank" rel="noopener"><b>JanSahyog</b><span>Civic issue reporting, built and deployed at VIT Chennai’s college-level Smart India Hackathon, then expanded afterwards.</span><i>↗</i></a></li>
         </ul>
       </div>
     </section>
@@ -266,7 +299,7 @@
             <h3>Sample output</h3>
             <figure class="mc-photo">
               <div class="mc-frame">
-                <img id="mc-img" src="/ansh.jpg" alt="Photo of Ansh Yadav" width="480" height="480" decoding="async" />
+                <img id="mc-img" data-src="/ansh.jpg" alt="Photo of Ansh Yadav" width="480" height="480" decoding="async" />
                 <canvas id="mc-noise" aria-hidden="true"></canvas>
               </div>
               <figcaption><span id="mc-t">t = 1000</span><span>1 sample · unconditional</span></figcaption>

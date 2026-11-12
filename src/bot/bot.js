@@ -22,7 +22,7 @@ const PROPS = {
   magnifier: ['...kkk...', '..kcccsk.', '.kccccck.', '.kcwcccck', '.kccccck.', '..kccck..', '...kkk...', '....Bn...', '....Bn...'],
   carrot: ['...l.l...', '....ll...', '...lL....', '...ooo...', '..oooo...', '..oOo....', '..oo.....', '.oo......', '.o.......'],
   shield: ['aaaaaaa', 'awwaaaA', 'awaaaaA', 'aaaaaaA', 'aaaaaaA', '.aaaaA.', '..aaA..', '...A...'],
-  map: ['ttTttTtt', 'tatTttTt', 'ttaaTatt', 'ttTtaatt', 'tbTttaTt', 'ttTttTtt'],
+  cone: ['...o...', '..ooo..', '..www..', '.ooooo.', '.wwwww.', 'ooooooo', 'OOOOOOO'],
   wrench: ['.s.s.', '.s.s.', '.sSs.', '..S..', '..s..', '..S..', '..s..', '..S..'],
   broom: ['...n', '...n', '...n', '..n.', '..n.', '..n.', '.ny.', 'yyyy', 'yyyy', 'y.y.'],
   envelope: ['wwwwwwwww', 'wgwwwwwgw', 'wwgwwwgww', 'wwwgwgwww', 'wwwwgwwww', 'wwwwwwwww'],
@@ -33,6 +33,12 @@ const WEAR = {
   night: { x: 11, y: 11, rows: ['.........a..', '......aawa..', '....aawaa...', '..aawaaaaa..', 'wwwwwwwwwwww'] },
 };
 const TIE = ['bb', '.b'];
+
+// One accent per prop for the sparkles, so each section's moment has its own colour
+const SPARK = {
+  magnifier: '#bfe6ff', carrot: '#f58a1f', shield: C.a, cone: C.b, cap: C.a,
+  wrench: '#c9ced6', tie: C.b, broom: C.body, wave: C.cheek,
+};
 
 const BUBBLES = {
   '!': ['..b..', '..b..', '..b..', '.....', '..b..'],
@@ -64,14 +70,15 @@ export function initBot() {
   applySize();
 
   const groundY = () => innerHeight - 6;
-  const walkMin = () => (innerWidth < 700 ? innerWidth * 0.5 : innerWidth * 0.42);
+  // Phones keep it further right, where there is less text to sit on
+  const walkMin = () => (innerWidth < 700 ? innerWidth * 0.58 : innerWidth * 0.42);
   const walkMax = () => innerWidth - 17 * S;
 
   const b = {
     x: innerWidth + 60, y: groundY(), vx: 0, vy: 0,
     facing: -1, mode: 'walk', targetX: innerWidth - 150,
     expr: 'normal', exprUntil: 0, action: null, actionUntil: 0,
-    bubble: null, bubbleUntil: 0, prop: 'broom',
+    bubble: null, bubbleUntil: 0, prop: 'broom', presentAt: 0,
     squash: 0, nextThought: 0, frame: 0, blinkAt: 2000, tilt: 0,
   };
   const pointer = { x: innerWidth / 2, y: innerHeight / 2 };
@@ -83,7 +90,11 @@ export function initBot() {
   let trail = [];
   let hoverSince = 0;
   let confetti = [];
+  let sparkles = [];
   let rot = 0;
+  let thrown = false;
+  let propTimer = 0;
+  let lastPresent = -Infinity;
 
   const lateNight = () => { const h = new Date().getHours(); return h >= 0 && h < 5; };
 
@@ -172,15 +183,72 @@ export function initBot() {
     updateProp();
   }, { passive: true });
 
-  function updateProp() {
+  function sectionProp() {
     const el = document.elementFromPoint(innerWidth / 2, innerHeight / 2);
-    const scene = el?.closest('[data-bot]');
-    if (!scene) return;
-    const next = scene.dataset.bot;
-    if (next !== b.prop) {
-      if (next === 'wave') act('wave', 2400);
+    return el?.closest('[data-bot]')?.dataset.bot;
+  }
+
+  // Section changes settle for a moment first, so scrolling past a section doesn't count.
+  // The timer isn't restarted on every scroll event, and reads the section again when it fires.
+  function updateProp() {
+    const next = sectionProp();
+    if (!next || next === b.prop || propTimer) return;
+    propTimer = setTimeout(applyProp, 220);
+  }
+
+  function applyProp() {
+    propTimer = 0;
+    const next = sectionProp();
+    if (!next || next === b.prop) return;
+    const busy = dragging || thrown || ['panic', 'dizzy', 'party'].includes(b.action);
+    if (busy || performance.now() - lastPresent < 900) {
+      // Too soon or too busy for a moment, so just swap like before
+      if (next === 'wave' && !b.action) act('wave', 2400);
       b.prop = next;
+      return;
     }
+    present(next);
+  }
+
+  // A small "look what I've got" when the section changes
+  function present(next) {
+    wake();
+    const now = performance.now();
+    lastPresent = now;
+    b.presentAt = now;
+    b.prop = next;
+    if (next === 'wave') act('wave', 2400);
+    else act('present', reducedMotion ? 900 : 1100);
+    feel('happy', 900);
+    // A bubble would sit right where the raised prop goes
+    b.bubble = null;
+    b.bubbleUntil = 0;
+    hop(250);
+    if (!reducedMotion) sparkle(next);
+  }
+
+  // Where a held prop sits when raised: above the right hand, over the shoulder
+  function raisedAt(prop) {
+    return { x: 26 - Math.floor(prop[0].length / 2), y: 17 - prop.length };
+  }
+
+  function sparkle(prop) {
+    let x = 18, y = 14;
+    if (prop === 'wave') {
+      x = 28; y = 15;
+    } else if (PROPS[prop]) {
+      const at = raisedAt(PROPS[prop]);
+      x = at.x + PROPS[prop][0].length / 2;
+      y = at.y + PROPS[prop].length / 2;
+    }
+    // Sparkles draw outside the facing flip, so mirror the start point here
+    if (b.facing < 0) x = G - x;
+    const colours = [C.body, '#fff', SPARK[prop] || C.a];
+    sparkles = Array.from({ length: 8 }, (_, i) => {
+      const a = (i / 8) * Math.PI * 2 + Math.random() * 0.4;
+      const v = 14 + Math.random() * 12;
+      return { x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, c: colours[i % 3], life: 1 };
+    });
   }
 
   hit.addEventListener('pointerenter', () => (hoverSince = performance.now()));
@@ -191,6 +259,7 @@ export function initBot() {
     dragging = true;
     dragDist = 0;
     trail = [];
+    thrown = false;
     b.mode = 'drag';
     b.action = null;
     hit.style.cursor = 'grabbing';
@@ -234,6 +303,7 @@ export function initBot() {
       b.vy = clamp(((z.y - a.y) / (z.t - a.t)) * 1000, -1100, 1100);
     }
     b.mode = 'air';
+    thrown = true;
   };
   hit.addEventListener('pointerup', release);
   hit.addEventListener('pointercancel', release);
@@ -329,7 +399,9 @@ export function initBot() {
     }
 
     // Antenna, the mood light
-    const bulb = alarm ? (f % 2 ? C.b : '#fff') : b.action === 'party' ? [C.a, C.b, C.green][f % 3] : sleeping ? C.stem : C.a;
+    const presenting = b.action === 'present';
+    let bulb = alarm ? (f % 2 ? C.b : '#fff') : b.action === 'party' ? [C.a, C.b, C.green][f % 3] : sleeping ? C.stem : C.a;
+    if (presenting && f % 2) bulb = C.body;
     px(17, 15 + dy, 2, 3, C.stem);
     if (!(airborne && f % 2)) {
       px(16, 12 + dy, 4, 3, bulb);
@@ -362,20 +434,30 @@ export function initBot() {
     // Arms and whatever it is holding
     const wave = b.action === 'wave' || b.action === 'party';
     const hold = !wave && !sleeping && b.action !== 'dizzy' && PROPS[b.prop];
+    const raised = hold && presenting;
     px(9, 23 + dy, 2, 3, C.limb);
     if (wave) {
       const up = f % 4 < 2;
       px(25, up ? 17 : 19, 2, 4, C.limb);
       px(25 + (up ? 2 : 0), up ? 15 : 18, 2, 2, C.limb);
+    } else if (raised) {
+      px(25, 17 + dy, 2, 7, C.limb);
     } else {
       px(25, 23 + dy, 2, 3, C.limb);
     }
-    if (hold) {
+    if (raised) {
+      // Held up over the shoulder. The broom goes handle down so the hand grips the handle.
+      const prop = b.prop === 'broom' ? [...PROPS.broom].reverse() : PROPS[b.prop];
+      const at = raisedAt(prop);
+      sprite(prop, at.x, at.y + dy);
+    } else if (hold) {
       const prop = PROPS[b.prop];
       const swing = (b.prop === 'broom' || b.prop === 'magnifier') && !walking ? (f % 8 < 4 ? 0 : 1) : 0;
       sprite(prop, 26 + swing, 26 + dy - prop.length + 3);
     }
-    if (b.prop === 'cap' && !sleeping) sprite(WEAR.cap.rows, WEAR.cap.x, WEAR.cap.y + dy + 2);
+    // The cap drops onto the head at the start of the moment
+    const capDrop = presenting && now - b.presentAt < 300 ? 3 : 0;
+    if (b.prop === 'cap' && !sleeping) sprite(WEAR.cap.rows, WEAR.cap.x, WEAR.cap.y + dy + 2 - capDrop);
     if (b.prop === 'tie') sprite(TIE, 17, 27 + dy);
     if (sleeping && lateNight()) sprite(WEAR.night.rows, WEAR.night.x, WEAR.night.y + dy + 3);
 
@@ -391,7 +473,7 @@ export function initBot() {
     }
 
     // Thought bubble, always the right way round
-    const icon = sleeping ? 'z' : now < b.bubbleUntil ? b.bubble : null;
+    const icon = sleeping ? 'z' : now < b.bubbleUntil && !presenting ? b.bubble : null;
     if (icon) {
       const bx = 24, by = sleeping ? 3 - (f % 16 < 8 ? 0 : 1) : 3;
       px(bx + 1, by, 7, 9, C.line);
@@ -403,6 +485,9 @@ export function initBot() {
     }
 
     for (const p of confetti) {
+      if (p.life > 0) px(Math.round(p.x), Math.round(p.y), 1, 1, p.c);
+    }
+    for (const p of sparkles) {
       if (p.life > 0) px(Math.round(p.x), Math.round(p.y), 1, 1, p.c);
     }
   }
@@ -441,6 +526,7 @@ export function initBot() {
           b.vy = 0;
           b.vx = 0;
           b.mode = 'idle';
+          thrown = false;
           b.nextThought = now + 900;
         }
       }
@@ -499,6 +585,15 @@ export function initBot() {
       p.life -= dt * 0.55;
     }
     if (confetti.length && confetti.every((p) => p.life <= 0)) confetti = [];
+
+    // Sparkles live about 0.6s with a little gravity
+    for (const p of sparkles) {
+      p.vy += 20 * dt;
+      p.x += p.vx * dt;
+      p.y += p.vy * dt;
+      p.life -= dt / 0.6;
+    }
+    if (sparkles.length && sparkles.every((p) => p.life <= 0)) sparkles = [];
 
     draw(now, lx, ly);
 

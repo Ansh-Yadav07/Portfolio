@@ -1,4 +1,4 @@
-import { emit, pin, range, smooth } from '../lib.js';
+import { emit, playOnView, range, smooth } from '../lib.js';
 
 // Scores in this sequence are a sample run for the animation, labelled as such on the page
 const CHECKS = [
@@ -42,24 +42,28 @@ export function initRead() {
     return { row, fill: row.querySelector('.check-fill'), val: row.querySelector('.check-val') };
   });
 
+  // Bars run between these points of the clock; the slowest check ends exactly at BARS_END
+  const SPEED = [0.62, 0.42, 0.34, 0.3, 0.72, 0.8];
+  const BARS_START = 0.05;
+  const BARS_END = 0.8;
+  const scale = (BARS_END - BARS_START) / Math.max(...SPEED);
+
   let announced = false;
-  pin(document.querySelector('.read-pin'), (t) => {
+  playOnView(document.querySelector('.pin-inner'), 1600, (t) => {
     rows.forEach((r, i) => {
       // All six start together, as they do in the thread pool, and finish at different speeds
-      const speed = [0.62, 0.42, 0.34, 0.3, 0.72, 0.8][i];
-      const p = smooth(range(t, 0.1, 0.1 + speed * 0.8));
-      r.row.classList.toggle('on', t > 0.08);
+      const p = smooth(range(t, BARS_START, BARS_START + SPEED[i] * scale));
       r.fill.style.width = `${p * CHECKS[i][1] * 100}%`;
       r.val.textContent = (p * CHECKS[i][1]).toFixed(2);
     });
-    const done = t > 0.8;
+    const done = t >= 0.86;
     verdict.classList.toggle('on', done);
     headline.style.color = done ? '#8e8e93' : '';
     if (done && !announced) {
       announced = true;
       emit('bot', { do: 'surprised' });
     }
-    if (t < 0.5) announced = false;
+    if (t === 0) announced = false;
   });
 
   const input = document.getElementById('ling-input');

@@ -64,7 +64,7 @@ function listenKeys() {
 const TEMPS = [
   [0.1, 'Ansh Yadav is a computer science student at VIT Chennai.'],
   [0.5, 'Ansh Yadav is a computer science student who specialises in AI and ML.'],
-  [0.9, 'Ansh builds machines that read, see, guard and plan.'],
+  [0.9, 'Ansh builds machines that read, see and guard.'],
   [1.2, 'Ansh is mostly a for-loop with ambitions.'],
   [1.5, 'Verified by 4 news APIs and one gibbon. Confidence is very high, sources are unclear.'],
   [1.8, 'The tomato is 0.97 sure Ansh lives in a backwater with twelve hidden layers.'],

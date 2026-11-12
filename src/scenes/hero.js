@@ -12,6 +12,7 @@ export function initHero() {
   const classLabel = document.getElementById('hero-class');
   const line = document.getElementById('hero-line');
   const scrollHint = document.getElementById('hero-scroll');
+  const hero = document.getElementById('hero');
 
   let W, H, dpr, N = 0;
   let nameX, nameY, wordX, wordY, noiseX, noiseY, offX, offY, sizes;
@@ -93,12 +94,11 @@ export function initHero() {
     const sa = Math.sqrt(alphaBar);
     const sn = Math.sqrt(1 - alphaBar);
 
-    // Paper inverts to black while the frame is mostly noise, so the next scene is already dark
+    // Paper inverts to the night colour while the frame is mostly noise, so the next scene is already dark
     const flip = smooth(range(scrollP, 0.38, 0.6));
-    const bg = Math.round(lerp(245, 0, flip));
     const fg = Math.round(lerp(10, 245, flip));
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    ctx.fillStyle = `rgb(${bg},${bg},${Math.round(lerp(243, 0, flip))})`;
+    ctx.fillStyle = `rgb(${Math.round(lerp(245, 10, flip))},${Math.round(lerp(245, 10, flip))},${Math.round(lerp(243, 11, flip))})`;
     ctx.fillRect(0, 0, W, H);
     ctx.fillStyle = `rgb(${fg},${fg},${fg})`;
 
@@ -161,6 +161,11 @@ export function initHero() {
     const t = Math.round((1 - alphaBar) * 1000);
     tLabel.textContent = `t = ${String(t).padStart(4, ' ')}`;
     tLabel.parentElement.style.color = flip > 0.5 ? '#8e8e93' : '';
+    // The nav reads this to switch to its dark theme while the hero is dark
+    if (hero.classList.contains('is-dark') !== flip > 0.5) {
+      hero.classList.toggle('is-dark', flip > 0.5);
+      emit('hero-dark');
+    }
     const settled = intro > 0.995 && scrollP < 0.1;
     line.classList.toggle('on', settled);
     scrollHint.classList.toggle('on', settled && scrollP < 0.01);
@@ -197,7 +202,7 @@ export function initHero() {
   canvas.addEventListener('pointerleave', () => (mouse.active = false));
   canvas.addEventListener('click', attack);
 
-  pin(document.getElementById('hero'), (t) => (scrollP = t));
+  pin(hero, (t) => (scrollP = t));
 
   let raf = 0, running = false;
   const loop = (now) => {

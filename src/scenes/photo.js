@@ -10,6 +10,8 @@ export function initPhoto() {
   const canvas = document.getElementById('mc-noise');
   const tLabel = document.getElementById('mc-t');
   if (!section || !img || !canvas) return;
+  // The photo is far down the page, so it only downloads once this scene starts
+  if (img.dataset.src && !img.getAttribute('src')) img.src = img.dataset.src;
 
   const start = () => {
     section.hidden = false;

@@ -28,6 +28,37 @@ export function updatePins() {
   }
 }
 
+// Plays a 0..1 timeline over `ms` once `el` is mostly on screen, and rewinds when it has left the screen
+export function playOnView(el, ms, fn) {
+  let raf = 0;
+  let state = 'idle'; // idle, playing or done
+  const play = () => {
+    state = 'playing';
+    const start = performance.now();
+    const tick = (now) => {
+      const p = clamp((now - start) / ms);
+      fn(p);
+      if (p < 1) raf = requestAnimationFrame(tick);
+      else state = 'done';
+    };
+    raf = requestAnimationFrame(tick);
+  };
+  fn(0);
+  new IntersectionObserver(([e]) => {
+    if (!e.isIntersecting) {
+      // Fully off screen: rewind so it plays again on the next visit
+      cancelAnimationFrame(raf);
+      if (state !== 'idle') fn(0);
+      state = 'idle';
+    } else if (e.intersectionRatio >= 0.6 && state === 'idle') {
+      if (reducedMotion) {
+        state = 'done';
+        fn(1);
+      } else play();
+    }
+  }, { threshold: [0, 0.6] }).observe(el);
+}
+
 // Runs a render loop only while the element is close to the viewport
 export function whenVisible(el, loop) {
   let visible = false;
